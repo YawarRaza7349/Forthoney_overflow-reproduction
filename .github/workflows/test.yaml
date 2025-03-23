@@ -13,6 +13,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Allow unprivileged user namespaces (for Ubuntu 24.04)
+        run: |
+          sudo sysctl kernel.apparmor_restrict_unprivileged_userns=0
+
       - name: Install dependencies
         run: |
           curl -L -o /tmp/mlton-2024.tgz https://github.com/MLton/mlton/releases/download/on-20241230-release/mlton-20241230-1.amd64-linux.ubuntu-24.04_glibc2.39.tgz
