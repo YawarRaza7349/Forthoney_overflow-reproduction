@@ -1,0 +1,27 @@
+name: Main worlflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          curl -L -o /tmp/mlton-2024.tgz https://github.com/MLton/mlton/releases/download/on-20241230-release/mlton-20241230-1.amd64-linux.ubuntu-24.04_glibc2.39.tgz
+          tar -xzf /tmp/mlton-2024.tgz -C "$HOME"
+          sudo make -C "$HOME/mlton-20241230-1.amd64-linux.ubuntu-24.04_glibc2.39" install
+          mlton
+
+      - name: Build
+        run: mlton reproduction.sml
+
+      - name: Test
+        run: ./reproduction
