@@ -19,11 +19,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          curl -L -o /tmp/mlton-2024.tgz https://github.com/MLton/mlton/releases/download/on-20241230-release/mlton-20241230-1.amd64-linux.ubuntu-24.04_glibc2.39.tgz
-          tar -xzf /tmp/mlton-2024.tgz -C "$HOME"
-          sudo make -C "$HOME/mlton-20241230-1.amd64-linux.ubuntu-24.04_glibc2.39" install
-          mlton
-
           sudo apt-get update
           sudo apt-get install attr mergerfs
           curl -L -o /tmp/try-latest.tgz https://github.com/binpash/try/releases/download/latest/try-latest.tgz
@@ -35,7 +30,7 @@ jobs:
           try --version
 
       - name: Build
-        run: mlton reproduction.sml
+        run: gcc reproduction.c -o reproduction
 
       - name: Test
         run: try ./reproduction
