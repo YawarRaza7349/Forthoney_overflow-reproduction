@@ -20,8 +20,18 @@ jobs:
           sudo make -C "$HOME/mlton-20241230-1.amd64-linux.ubuntu-24.04_glibc2.39" install
           mlton
 
+          sudo apt-get update
+          sudo apt-get install attr mergerfs
+          curl -L -o /tmp/try-latest.tgz https://github.com/binpash/try/releases/download/latest/try-latest.tgz
+          tar -xzf /tmp/try-latest.tgz -C "$HOME"
+          cd "$HOME/try-0.2.0"
+          ./configure
+          make
+          sudo make install
+          try --version
+
       - name: Build
         run: mlton reproduction.sml
 
       - name: Test
-        run: ./reproduction
+        run: try ./reproduction
